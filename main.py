@@ -52,7 +52,7 @@ i = 1
 
 while i != 0:
 
-    print("Select one of the differetn options! Type 'info' to a full explanation of the program\n")
+    print("Select one of the different options! Type 'info' to a full explanation of the program\n")
     
     print("See password names: 'passwd'\n\nImport a new password: '1'\nSee a password: '2'\nDelete a password: '3'\nGenerate a password: '4'\n\nQuit the program: 'q'")
 
@@ -96,7 +96,6 @@ while i != 0:
 # delete temp files
 
 with open(".data/temp_file.txt","r+") as tf_f:
-
     tf_f.truncate(0)
     tf_f.close()
     
