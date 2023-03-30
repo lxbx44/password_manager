@@ -52,7 +52,7 @@ Download the git repo in a zip file:
 
 ![IMG](https://github.com/rogerrfs/EzFAC70R/blob/master/.data/img2.jpeg)
 
-Extract the zip file.
+Extract the zip file and enter the folder in `cmd` or `powershell`.
 
 `pip3 install -r requirements.txt`
 
