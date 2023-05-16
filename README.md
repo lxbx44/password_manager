@@ -1,4 +1,4 @@
-#  <img src="https://github.com/rogerrfs/password_manager/blob/master/.icon/icon.ico"  width="25" height="25">ㅤpassword_manager
+#  <img src=".icon/icon.ico"  width="25" height="25">ㅤpassword_manager
 
 An intuitive Password Manager with Python
 
@@ -35,7 +35,7 @@ Made by: Roger Fibla
 
  Cloning the project:
 
-`git clone https://github.com/rogerrfs/password_manager.git`
+`git clone https://github.com/lxbx44/password_manager.git`
 
 `cd password_manager/`
 
@@ -48,9 +48,9 @@ Made by: Roger Fibla
 
 Download the git repo in a zip file:
 
-![IMG](https://github.com/rogerrfs/EzFAC70R/blob/master/.data/img1.jpeg)
+![IMG](https://github.com/lxbx44/EzFAC70R/blob/master/.data/img1.jpeg)
 
-![IMG](https://github.com/rogerrfs/EzFAC70R/blob/master/.data/img2.jpeg)
+![IMG](https://github.com/lxbx44/EzFAC70R/blob/master/.data/img2.jpeg)
 
 Extract the zip file and enter the folder in `cmd` or `powershell`.
 
