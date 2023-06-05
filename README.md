@@ -2,7 +2,7 @@
 
 An intuitive Password Manager with Python
 
-Made by: Roger Fibla
+Made by: Aria
 
 ## Requirements
 
@@ -48,11 +48,7 @@ Made by: Roger Fibla
 
 Download the git repo in a zip file:
 
-![IMG](https://github.com/lxbx44/EzFAC70R/blob/master/.data/img1.jpeg)
-
-![IMG](https://github.com/lxbx44/EzFAC70R/blob/master/.data/img2.jpeg)
-
-Extract the zip file and enter the folder in `cmd` or `powershell`.
+`git clone https://github.com/lxbx44/password_manager.git`
 
 `pip3 install -r requirements.txt`
 
@@ -62,5 +58,5 @@ Extract the zip file and enter the folder in `cmd` or `powershell`.
 
 Enjoy!
 
-Roger Fibla
+Aria
 
