@@ -22,15 +22,14 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-
+# Function to clear the terminal
 def clear():
     if platform == "linux" or platform == "linux2":
         os.system('clear')
-    elif platform == "win64":
-        os.system('cls')
-    elif platform == "win32":
+    elif platform == "win64" or platform == "win32":
         os.system('cls')
 
+# Main title of the program
 def title():
     print("""
  ____                                  _  __  __                                         
@@ -47,6 +46,7 @@ def title():
           """)
 
 
+# the key() functions creates a key based on your password. This key is used to encrypt passwords later
 def key():
     with open(".data/temp_file.txt", "r") as tf:
         raw_passwd = tf.read()
@@ -68,7 +68,7 @@ def key():
     key = encoded_key.decode()
     return key
 
-
+# Main function
 def main():
 
     # Check if there is an account: if not a password is created and encrypted
@@ -91,7 +91,7 @@ def main():
     title()
 
     # login
-
+    
     with open(".data/passwd/passwd.txt", "r") as f:
         file = f.read()
     
