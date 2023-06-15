@@ -124,6 +124,7 @@ def main():
         '2' → Search for a password
         '3' → Delete a password
         '4' → Generate a new secure password
+        '5' → How secure is my password?
         'q' → Exit the program
               """)
     
@@ -263,6 +264,53 @@ def main():
 
 
             input("\nPress enter to continue ")
+            clear()
+
+        elif choice == "5":
+            clear()
+            print("Enter your password to se how secure it is:")
+
+            password = str(getpass(">> "))
+            
+            if password == "":
+                print("password must be at least 1 char long")
+                
+            else:
+                length_criteria = 8
+                uppercase_criteria = 1 
+                lowercase_criteria = 1 
+                digit_criteria = 1
+                special_char_criteria = 1 
+
+                score = 0
+                max_score = length_criteria + uppercase_criteria + lowercase_criteria + digit_criteria + special_char_criteria 
+                if len(password) >= length_criteria:
+                    score += length_criteria
+                if any(char.isupper() for char in password):
+                    score += uppercase_criteria
+                if any(char.islower() for char in password):
+                    score += lowercase_criteria
+                if any(char.isdigit() for char in password):
+                    score += digit_criteria
+                if any(not char.isalnum() for char in password):
+                    score += special_char_criteria
+
+                strength_percentage = int((score / max_score) * 100)
+
+                print(f"\nYou password is {strength_percentage}% secure")
+
+                if strength_percentage < 25:
+                    print("You must use a better password! >:(")
+                elif strength_percentage >= 25 and strength_percentage < 50:
+                    print("You should use a better password :c")
+                elif strength_percentage == 50:
+                    print("Your password is a bit meh, improve it :v")
+                elif strength_percentage > 50 and strength_percentage <= 75:
+                    print("Your password is okay, but it could be better! :>")
+                else:
+                    print("You have a nice and strong password! :3")
+
+            input("Press enter to continue ")
             clear()
 
         elif choice == "q":
