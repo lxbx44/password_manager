@@ -39,9 +39,6 @@ def title():
 |_|     \\__,_||___/|___/  \\_/\\_/   \\__,_||_|  |_| \\__,_||_| |_| \\__,_| \\__, | \\___||_|   
                                                                        |___/             
 
-                                                                |---------|
-                                                                | By Aria |
-                                                                |---------|                
     Press intro to continue
           """)
 
@@ -132,7 +129,7 @@ def main():
         choice = input(">> ")
 
         if choice == "info":
-            print("Welcome to PasswdManager, a simple password manager, coded in Python by Aria. With this program, you can store all your passwords encrypted in a secure way.")
+            print("Welcome to PasswdManager, a simple password manager made with python. With this program, you can easily store all your passwords encrypted in a very secure way. Enjoy")
             input("\nPress enter to continue ")
             clear()
 
