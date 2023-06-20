@@ -12,7 +12,8 @@ sed -i '/config set path $nu.path $nu.path:./d' ~/.config/nu/config.toml
 rm -r ~/.config/PasswdManager
 
 
-echo "\nProgram and all associated files have been deleted."
+echo ""
+echo "Program and all associated files have been deleted."
 echo "You can now delete this directory"
 
 

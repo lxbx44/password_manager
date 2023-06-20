@@ -25,6 +25,9 @@ else
     true
 fi
 
-echo "\nAll done.\nDO NOT DELETE THIS FOLDER"
+echo ""
+echo "All done."
+echo ""
+echo "DO NOT DELETE THIS FOLDER"
 
 
