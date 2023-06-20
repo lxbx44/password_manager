@@ -341,18 +341,18 @@ def main():
 
 
 if __name__ == "__main__":
-#    try:
-     main()
-#    except:
-#        print("Program crashed. Deleting temp files")
-#        pass
-#    if platform == "linux" or platform == "linux2":
-#        
-#        PATH_L = os.path.expanduser("~/.config/PasswdManager")
-#
-#        with open(PATH_L + "data/temp_file.txt","r+") as tf_f:
-#            tf_f.truncate(0)
-#            tf_f.close()
-#        os.remove(PATH_L + "data/temp_file.txt")
+    try:
+        main()
+    except:
+        print("Program crashed. Deleting temp files")
+        pass
+    if platform == "linux" or platform == "linux2":
+        
+        PATH_L = os.path.expanduser("~/.config/PasswdManager")
+
+        with open(PATH_L + "data/temp_file.txt","r+") as tf_f:
+            tf_f.truncate(0)
+            tf_f.close()
+        os.remove(PATH_L + "data/temp_file.txt")
     
 # :3
