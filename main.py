@@ -9,7 +9,8 @@ import string
 import random
 from time import sleep
 
-import os, os.path
+import os
+import os.path
 from getpass import getpass
 import hashlib
 from sys import platform
@@ -22,12 +23,14 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
+
 # Function to clear the terminal
 def clear():
     if platform == "linux" or platform == "linux2":
         os.system('clear')
     elif platform == "win64" or platform == "win32":
         os.system('cls')
+
 
 # Main title of the program
 def title():
@@ -44,15 +47,15 @@ def title():
 
 
 # the key() functions creates a key based on your password. This key is used to encrypt passwords later
-def key():
-    with open(".data/temp_file.txt", "r") as tf:
+def key(PA):
+    with open(PA + "data/temp_file.txt", "r") as tf:
         raw_passwd = tf.read()
 
     password = raw_passwd.encode()
 
     mysalt = b'\xbb\x9c\xdfu\xee\x99\xe3e\xce\x9e\xff*\xb3):r'
 
-    kdf = PBKDF2HMAC (
+    kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256,
         length=32,
         salt=mysalt,
@@ -65,54 +68,68 @@ def key():
     key = encoded_key.decode()
     return key
 
-# Main function
-def main():
 
+def mainLinux():
     # Check if there is an account: if not a password is created and encrypted
-    if os.path.exists(".data/passwd/passwd.txt") == True:
-        pass
-    else:
+    PATH_L = os.path.expanduser("~/.config/PasswdManager/")
+
+    if not os.path.exists(PATH_L):
+        # path structure ~/.config/PasswdManager/
+        # .
+        # ├── data.json
+        # └── passwd
+        #     └── info.txt
+        #     └── passwd1.txt
+        #     └── passwd2.txt
+
+        
+        os.makedirs(PATH_L)
+        os.makedirs(PATH_L + "data")
+        os.makedirs(PATH_L + "data/passwd")
+
+        with open(PATH_L + "data/data.json", "w+") as json_f:
+            json_f.write('{"created_passwords": []}')
+        with open(PATH_L + "data/passwd/info.txt", "w+") as txt_f:
+            txt_f.write("The passwords will be stored encoded in this directory")
+
         print("Create a password. This password will be encrypted.")
         login_passwd = getpass(">> ")
 
-        encrypted_passwd = hashlib.md5(login_passwd.encode())
+        encrypted_passwd = hashlib.md5(login_passwd.encode()).hexdigest()
+        
+        os.makedirs(PATH_L + "data/passwd", exist_ok=True)
+        with open(PATH_L + "data/passwd/passwd.txt", "w+") as f:
+            f.write(encrypted_passwd)
 
-        with open(".data/passwd/passwd.txt", "a") as f:
-            f.write(encrypted_passwd.hexdigest())
-            f.close()
-
-        del(login_passwd)
+        del login_passwd
+    else:
+        pass
 
     clear()
 
     title()
 
     # login
-    
-    with open(".data/passwd/passwd.txt", "r") as f:
+    with open(PATH_L + "data/passwd/passwd.txt", "r") as f:
         file = f.read()
-    
-    
+
     while True:
         print("Enter your password.")
         login = getpass(">> ")
-        login_e = hashlib.md5(login.encode())
-        login_f = login_e.hexdigest()
-        
-        if login_f in file:
+        login_e = hashlib.md5(login.encode()).hexdigest()
+
+        if login_e in file:
             print("Correct password!")
             break
         else:
             print("Incorrect password, try again.")
 
-    
-    with open(".data/temp_file.txt", "a") as tf:
+    with open(PATH_L + "data/temp_file.txt", "w+") as tf:
         tf.write(login)
 
     clear()
     # Main loop
-
-    while True:    
+    while True:
         print("""
     Select one of the different options! Type 'info' to a full explanation of the program
     
@@ -124,7 +141,6 @@ def main():
         '5' → How secure is my password?
         'q' → Exit the program
               """)
-    
 
         choice = input(">> ")
 
@@ -133,66 +149,61 @@ def main():
             input("\nPress enter to continue ")
             clear()
 
-
         elif choice == "passwd":
-            with open('.data/data.json') as jf:
+            with open(PATH_L + 'data/data.json') as jf:
                 data = json.load(jf)
 
             num = 0
             for pass_name in data["created_passwords"]:
                 num += 1
                 print(f"{num}. '{pass_name}'\n")
-            
+
             input("\nPress enter to continue ")
             clear()
 
-
         elif choice == "1":
-            cipher = Fernet(key())
-            
+            cipher = Fernet(key(PATH_L))
+
             print("Enter the name of the password.")
             input_name = input(">> ")
-            filename = ".data/passwd/" + input_name + ".txt"
+            filename = PATH_L + "data/passwd/" + input_name + ".txt"
 
             print("Create a password. This password will be encrypted.")
             create_passwd_ = getpass(">> ")
-        
-            with open(filename, "w") as f:
-                f.write(create_passwd_)
-                f.close()
+
+            with open(filename, "wb") as f:
+                f.write(create_passwd_.encode())
 
             with open(filename, "rb") as ef:
                 e_file = ef.read()
 
-            ectypted_passwd = cipher.encrypt(e_file)
+            encrypted_passwd = cipher.encrypt(e_file)
 
-            with open(filename, "ab") as ef:
+            with open(filename, "wb") as ef:
                 ef.truncate(0)
-                ef.write(ectypted_passwd)
+                ef.write(encrypted_passwd)
 
-            with open(".data/data.json",'r+') as jf:
+            with open(PATH_L + "data/data.json", 'r+') as jf:
                 file_data = json.load(jf)
                 file_data["created_passwords"].append(input_name)
                 jf.seek(0)
-                json.dump(file_data, jf, indent = 4)
-        
-        
-            del(create_passwd_)
+                json.dump(file_data, jf, indent=4)
+
+            del create_passwd_
 
             input("\nPress enter to continue ")
             clear()
 
-
         elif choice == "2":
-            cipher = Fernet(key())
-            
+            cipher = Fernet(key(PATH_L))
+
             print("Enter the name of the password")
             file_name = input(">> ")
-            file_path = ".data/passwd/" + file_name + ".txt"
-            
+            file_path = PATH_L + "data/passwd/" + file_name + ".txt"
+
             with open(file_path, "rb") as df:
                 encrypted_data = df.read()
-            
+
             passwd = cipher.decrypt(encrypted_data)
 
             print("\n" + passwd.decode())
@@ -200,23 +211,22 @@ def main():
             input("\nPress enter to continue ")
             clear()
 
-
         elif choice == "3":
-            print("Enter the name of the passwdord you want to delete.")
+            print("Enter the name of the password you want to delete.")
             passwd_name = input(">> ")
 
-            print("Are you sure you want to delete the passwdord? [y/N]")
+            print("Are you sure you want to delete the password? [y/N]")
             confirmation = input(">> ")
-            
-            path = (".data/passwd/" + passwd_name + ".txt")
+
+            path = (PATH_L + "data/passwd/" + passwd_name + ".txt")
 
             if confirmation == "y" or confirmation == "Y" or confirmation == "yes" or confirmation == "YES":
                 if os.path.exists(path):
                     os.remove(path)
 
-                    with open('.data/data.json') as js:
+                    with open(PATH_L + 'data/data.json') as js:
                         data = json.load(js)
-                    
+
                     n = 0
                     for passwd in data["created_passwords"]:
                         if passwd == passwd_name:
@@ -224,22 +234,17 @@ def main():
                             break
                         else:
                             n += 1
-                            
-                    with open('.data/data.json', 'w') as file: 
-                        json.dump(data, file) 
-                          
 
-
+                    with open(PATH_L + 'data/data.json', 'w') as file:
+                        json.dump(data, file)
 
                 else:
                     print("\nPassword not recognized.\nPlease try again.")
             else:
                 pass
 
-            
             input("\nPress enter to continue ")
             clear()
-
 
         elif choice == "4":
             characters = list(string.ascii_letters + string.digits + "!@#$%^&*")
@@ -259,28 +264,33 @@ def main():
 
             print("Your password is " + "".join(password))
 
-
             input("\nPress enter to continue ")
             clear()
 
         elif choice == "5":
             clear()
-            print("Enter your password to se how secure it is:")
+            print("Enter your password to see how secure it is:")
 
             password = str(getpass(">> "))
-            
+
             if password == "":
                 print("password must be at least 1 char long")
-                
+
             else:
                 length_criteria = 8
-                uppercase_criteria = 1 
-                lowercase_criteria = 1 
+                uppercase_criteria = 1
+                lowercase_criteria = 1
                 digit_criteria = 1
-                special_char_criteria = 1 
+                special_char_criteria = 1
 
                 score = 0
-                max_score = length_criteria + uppercase_criteria + lowercase_criteria + digit_criteria + special_char_criteria 
+                max_score = (
+                    length_criteria
+                    + uppercase_criteria
+                    + lowercase_criteria
+                    + digit_criteria
+                    + special_char_criteria
+                )
                 if len(password) >= length_criteria:
                     score += length_criteria
                 if any(char.isupper() for char in password):
@@ -294,15 +304,15 @@ def main():
 
                 strength_percentage = int((score / max_score) * 100)
 
-                print(f"\nYou password is {strength_percentage}% secure")
+                print(f"\nYour password is {strength_percentage}% secure")
 
                 if strength_percentage < 25:
                     print("You must use a better password! >:(")
-                elif strength_percentage >= 25 and strength_percentage < 50:
+                elif 25 <= strength_percentage < 50:
                     print("You should use a better password :c")
                 elif strength_percentage == 50:
                     print("Your password is a bit meh, improve it :v")
-                elif strength_percentage > 50 and strength_percentage <= 75:
+                elif 50 < strength_percentage <= 75:
                     print("Your password is okay, but it could be better! :>")
                 else:
                     print("You have a nice and strong password! :3")
@@ -314,7 +324,6 @@ def main():
             print("Bye")
             sleep(1)
             break
-            
 
         else:
             print("Command not recognized. Please try again.")
@@ -322,18 +331,28 @@ def main():
             clear()
 
 
+def main():
+    if platform == "linux" or platform == "linux2":
+        mainLinux()
+    else:
+        print("Not aviable yet.")
+        quit()
+
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except:
-        print("Program crashed. Deleting temp files")
-        pass
-
-    with open(".data/temp_file.txt","r+") as tf_f:
-        tf_f.truncate(0)
-        tf_f.close()
-    os.remove(".data/temp_file.txt")
+#    try:
+     main()
+#    except:
+#        print("Program crashed. Deleting temp files")
+#        pass
+#    if platform == "linux" or platform == "linux2":
+#        
+#        PATH_L = os.path.expanduser("~/.config/PasswdManager")
+#
+#        with open(PATH_L + "data/temp_file.txt","r+") as tf_f:
+#            tf_f.truncate(0)
+#            tf_f.close()
+#        os.remove(PATH_L + "data/temp_file.txt")
     
 # :3
