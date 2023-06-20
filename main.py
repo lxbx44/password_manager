@@ -348,7 +348,7 @@ if __name__ == "__main__":
         pass
     if platform == "linux" or platform == "linux2":
         
-        PATH_L = os.path.expanduser("~/.config/PasswdManager")
+        PATH_L = os.path.expanduser("~/.config/PasswdManager/")
 
         with open(PATH_L + "data/temp_file.txt","r+") as tf_f:
             tf_f.truncate(0)
