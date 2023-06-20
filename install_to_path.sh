@@ -13,10 +13,8 @@ read -p ">> " input
 
 if [ "$input" == "1" ]; then
     export PATH=".:$PATH"
-    source ~/.zshrc
 elif [ "$input" == "2" ]; then
     export PATH=".:$PATH"
-    source ~/bashrc
 elif [ "$input" == "3" ]; then
     set -gx PATH . $PATH; source ~/.config/fish/config.fish
 elif [ "$input" == "4" ]; then
