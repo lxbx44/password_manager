@@ -12,10 +12,8 @@ sed -i '/config set path $nu.path $nu.path:./d' ~/.config/nu/config.toml
 rm -r ~/.config/PasswdManager
 
 
-# Delete entire program directory
-current_directory=$(pwd)
-parent_directory=$(dirname "$current_directory")
-rm -rf "$parent_directory"
+echo "\nProgram and all associated files have been deleted."
+echo "You can now delete this directory"
 
-echo "Program and all associated files have been deleted."
+
 
