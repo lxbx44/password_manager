@@ -14,19 +14,19 @@ curdir="${pwd}"
 read -p ">> " input
 
 if [ "$input" = "1" ]; then
-    echo "alias pm=\"${curdir}/$(basename "$0")\"" >> ~/.zshrc
+    alias pm="${curdir}/$(basename "$0")"
     source ~/.zshrc
 
 elif [ "$input" = "2" ]; then
-    echo "alias pm=\"${curdir}/$(basename "$0")\"" >> ~/.bashrc
+    alias pm="${curdir}/$(basename "$0")"
     source ~/.bashrc
 
 elif [ "$input" = "3" ]; then
-    echo "function pm { ${curdir}/$(basename "$0"); }" >> ~/.config/fish/config.fish
+    function pm { ${curdir}/$(basename "$0"); }
     source ~/.config/fish/config.fish
 
 elif [ "$input" = "4" ]; then
-    echo "config set path \$nu.path \$nu.path:${curdir}" >> ~/.config/nu/config.toml
+    config set path \$nu.path \$nu.path:${curdir}
     echo "Restart your terminal"
 fi
 
