@@ -145,7 +145,8 @@ def mainLinux():
         choice = input(">> ")
 
         if choice == "info":
-            print("Welcome to PasswdManager, a simple password manager made with python. With this program, you can easily store all your passwords encrypted in a very secure way. Enjoy")
+            print("Welcome to PasswdManager, a simple password manager made with python. With this program, you can easily store all your passwords encrypted in a very secure way. Enjoy\n\nTo delete everything just type 'deleteall' in the main page")
+
             input("\nPress enter to continue ")
             clear()
 
@@ -319,6 +320,22 @@ def mainLinux():
 
             input("Press enter to continue ")
             clear()
+
+        elif choice == "deleteall":
+            print("are you sure you want to delete all your passwords and information? [y/N]")
+
+            finRes = input(">> ")
+            
+            if finRes == "y" or finRes == "Y" or finRes == "yes":
+                os.system(f"rm -rf {PATH_L}")
+                print("Bye")
+                sleep(1)
+                quit()
+
+            else:
+                print("The information will not be deleted")
+                input("\nPress enter to continue")
+                clear()
 
         elif choice == "q":
             print("Bye")
