@@ -82,7 +82,6 @@ def mainLinux():
         #     └── passwd1.txt
         #     └── passwd2.txt
 
-        
         os.makedirs(PATH_L)
         os.makedirs(PATH_L + "data")
         os.makedirs(PATH_L + "data/passwd")
@@ -362,7 +361,7 @@ if __name__ == "__main__":
         main()
     except:
         print("Program crashed. Deleting temp files")
-        pass
+        
     if platform == "linux" or platform == "linux2":
         
         PATH_L = os.path.expanduser("~/.config/PasswdManager/")
