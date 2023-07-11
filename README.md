@@ -1,4 +1,4 @@
-#  <img src=".icon/icon.ico"  width="25" height="25">ㅤpassword_manager
+#  <img src=".icon/icon.ico"  width="25" height="25">ㅤ PasswdManager
 
 An intuitive Password Manager with Python
 
