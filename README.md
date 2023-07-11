@@ -56,6 +56,8 @@ Download the git repo in a zip file:
 
 #
 
+- [More info](http://www.fibla.es/pm)
+
 Enjoy!
 
 Aria
