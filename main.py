@@ -68,6 +68,8 @@ def key(PA):
     key = encoded_key.decode()
     return key
 
+def mainWin():
+    return 0
 
 def mainLinux():
     # Check if there is an account: if not a password is created and encrypted
@@ -350,6 +352,7 @@ def mainLinux():
 def main():
     if platform == "linux" or platform == "linux2":
         mainLinux()
+        mainWin()
     else:
         print("Not aviable yet.")
         quit()
