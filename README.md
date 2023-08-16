@@ -54,6 +54,12 @@ Download the git repo in a zip file:
 
 `python3 main.py`
 
+Additionally you can add the application to your path to have a better experience:
+
+`sudo cp main.py /usr/bin/pmcli`
+
+They you just need to run `pmcli` on your terminal.
+
 #
 
 - [More info](http://www.fibla.es/pm)
