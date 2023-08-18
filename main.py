@@ -8,6 +8,7 @@
 import string
 import random
 from time import sleep
+from terminaltables import SingleTable
 
 import os
 import os.path
@@ -131,17 +132,22 @@ def mainLinux():
     clear()
     # Main loop
     while True:
-        print("""
-    Select one of the different options! Type 'info' to a full explanation of the program
-    
-        'passwd' → See current password names
-        '1' → Import a new password
-        '2' → Search for a password
-        '3' → Delete a password
-        '4' → Generate a new secure password
-        '5' → How secure is my password?
-        'q' → Exit the program
-              """)
+        print("Select one of the different options! Type 'info' to a full explanation of the program\n")
+
+        TABLE_DATA = (
+            ('command', 'functionality'),
+            ("'passwd'", "See current password names"),
+            ("'1'", "Import a new password"),
+            ("'2'", "Search for a password"),
+            ("'3'", "Delete a password"),
+            ("'4'", "Generate a new secure password"),
+            ("'5'", "How secure is my password?"),
+            ("'q'", "Exit the program")
+        )
+        
+        table_cont = SingleTable(TABLE_DATA)
+        table_cont.justify_columns[1] = 'left'
+        print(table_cont.table)
 
         choice = input(">> ")
 
