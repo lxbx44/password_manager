@@ -352,6 +352,7 @@ def mainLinux():
 def main():
     if platform == "linux" or platform == "linux2":
         mainLinux()
+    elif platform == "Windows":
         mainWin()
     else:
         print("Not aviable yet.")
