@@ -1,6 +1,6 @@
 #  <img src=".icon/icon.ico"  width="25" height="25">ㅤ PasswdManager
 
-An intuitive Password Manager with Python
+An intuitive Password Manager built in Python
 
 Made by: Aria
 
@@ -27,6 +27,14 @@ Made by: Aria
   `yay -S python3`
   
   `yay -S python-pip `
+
+
+- Fedora
+
+  `sudo dnf install python3`
+  
+  `sudo dnf install python-pip `
+
   
 - [Windows](https://www.python.org/downloads/)
 
@@ -43,6 +51,13 @@ Made by: Aria
 
 `python3 main.py`
 
+Additionally you can add the application to your path to have a better experience:
+
+`sudo cp main.py /usr/bin/pmcli`
+
+They you just need to run `pmcli` on your terminal.
+
+
 
 ### Windows
 
@@ -53,12 +68,6 @@ Download the git repo in a zip file:
 `pip3 install -r requirements.txt`
 
 `python3 main.py`
-
-Additionally you can add the application to your path to have a better experience:
-
-`sudo cp main.py /usr/bin/pmcli`
-
-They you just need to run `pmcli` on your terminal.
 
 #
 

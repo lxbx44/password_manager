@@ -339,7 +339,7 @@ def mainLinux():
                 clear()
 
         elif choice == "q":
-            print("Bye")
+            print("Exiting...\nBye")
             sleep(1)
             break
 
