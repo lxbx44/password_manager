@@ -53,7 +53,7 @@ Made by: Aria
 
 Additionally you can add the application to your path to have a better experience:
 
-`sudo cp main.py /usr/bin/pmcli`
+`chmod +x main.py && sudo cp main.py /usr/bin/pmcli`
 
 They you just need to run `pmcli` on your terminal.
 
