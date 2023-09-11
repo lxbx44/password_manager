@@ -346,7 +346,7 @@ def mainLinux():
 
         elif choice == "q":
             print("Exiting...\nBye")
-            sleep(1)
+            sleep(0.5)
             break
 
         else:
