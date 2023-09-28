@@ -361,8 +361,8 @@ def main():
 if __name__ == "__main__":
     try:
         main()
-    except:
-        print("There was an error running the program.")
+    except Exception as e:
+        print(f"There was an error running the program: {e}")
         sys.exit(1)
 
 # :3
