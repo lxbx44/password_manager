@@ -38,6 +38,7 @@ def clear():
 def title():
     print("Password Manager :3")
 
+
 # the key() functions creates a key based on your password. This key is used to encrypt passwords later
 def key(PA):
     raw_passwd = PA
@@ -59,8 +60,10 @@ def key(PA):
     key = encoded_key.decode()
     return key
 
+
 def mainWin():
     return 0
+
 
 def mainLinux():
     # Check if there is an account: if not a password is created and encrypted
@@ -88,7 +91,7 @@ def mainLinux():
         login_passwd = getpass(">> ")
 
         encrypted_passwd = hashlib.md5(login_passwd.encode()).hexdigest()
-        
+
         os.makedirs(PATH_L + "data/passwd", exist_ok=True)
         with open(PATH_L + "data/passwd/passwd.txt", "w+") as f:
             f.write(encrypted_passwd)
@@ -131,7 +134,7 @@ def mainLinux():
             ("'5'", "How secure is my password?"),
             ("'q'", "Exit the program")
         )
-        
+
         table_cont = SingleTable(TABLE_DATA)
         table_cont.justify_columns[1] = 'left'
         print(table_cont.table)
@@ -325,7 +328,7 @@ def mainLinux():
             print("are you sure you want to delete all your passwords and information? [y/N]")
 
             finRes = input(">> ")
-            
+
             if finRes == "y" or finRes == "Y" or finRes == "yes":
                 os.system(f"rm -rf {PATH_L}")
                 print("Bye")
