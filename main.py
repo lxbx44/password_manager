@@ -2,7 +2,7 @@
 
 #
 # Password Manager
-# By Aria
+# By Ari:3
 #
 
 import string
@@ -14,6 +14,7 @@ import os
 import os.path
 from getpass import getpass
 import hashlib
+import sys
 from sys import platform
 import json
 import base64
@@ -35,22 +36,11 @@ def clear():
 
 # Main title of the program
 def title():
-    print("""
- ____                                  _  __  __                                         
-|  _ \\   __ _  ___  ___ __      __  __| ||  \\/  |  __ _  _ __    __ _   __ _   ___  _ __ 
-| |_) | / _` |/ __|/ __|\\ \\ /\\ / / / _` || |\\/| | / _` || '_ \\  / _` | / _` | / _ \\| '__|
-|  __/ | (_| |\\__ \\__ \\ \\ V  V / | (_| || |  | || (_| || | | || (_| || (_| ||  __/| |   
-|_|     \\__,_||___/|___/  \\_/\\_/   \\__,_||_|  |_| \\__,_||_| |_| \\__,_| \\__, | \\___||_|   
-                                                                       |___/             
-
-    Press intro to continue
-          """)
-
+    print("Password Manager :3")
 
 # the key() functions creates a key based on your password. This key is used to encrypt passwords later
 def key(PA):
-    with open(PA + "data/temp_file.txt", "r") as tf:
-        raw_passwd = tf.read()
+    raw_passwd = PA
 
     password = raw_passwd.encode()
 
@@ -126,9 +116,6 @@ def mainLinux():
         else:
             print("Incorrect password, try again.")
 
-    with open(PATH_L + "data/temp_file.txt", "w+") as tf:
-        tf.write(login)
-
     clear()
     # Main loop
     while True:
@@ -170,7 +157,7 @@ def mainLinux():
             clear()
 
         elif choice == "1":
-            cipher = Fernet(key(PATH_L))
+            cipher = Fernet(key(login))
 
             print("Enter the name of the password.")
             input_name = input(">> ")
@@ -203,21 +190,27 @@ def mainLinux():
             clear()
 
         elif choice == "2":
-            cipher = Fernet(key(PATH_L))
+            cipher = Fernet(key(login))
 
             print("Enter the name of the password")
             file_name = input(">> ")
             file_path = PATH_L + "data/passwd/" + file_name + ".txt"
 
-            with open(file_path, "rb") as df:
-                encrypted_data = df.read()
+            if os.path.exists(file_path):
+                with open(file_path, "rb") as df:
+                    encrypted_data = df.read()
 
-            passwd = cipher.decrypt(encrypted_data)
+                passwd = cipher.decrypt(encrypted_data)
 
-            print("\n" + passwd.decode())
+                print("\n" + passwd.decode())
 
-            input("\nPress enter to continue ")
-            clear()
+                input("\nPress enter to continue ")
+                clear()
+            else:
+                print("Password doesn't exist")
+
+                input("\nPress enter to continue ")
+                clear()
 
         elif choice == "3":
             print("Enter the name of the password you want to delete.")
@@ -365,20 +358,11 @@ def main():
         quit()
 
 
-
 if __name__ == "__main__":
     try:
         main()
     except:
-        print("Program crashed. Deleting temp files")
-        
-    if platform == "linux" or platform == "linux2":
-        
-        PATH_L = os.path.expanduser("~/.config/PasswdManager/")
+        print("There was an error running the program.")
+        sys.exit(1)
 
-        with open(PATH_L + "data/temp_file.txt","r+") as tf_f:
-            tf_f.truncate(0)
-            tf_f.close()
-        os.remove(PATH_L + "data/temp_file.txt")
-    
 # :3
