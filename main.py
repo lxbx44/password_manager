@@ -325,7 +325,7 @@ def mainLinux():
                 print("password must be at least 1 char long")
 
             elif " " in password:
-                print("Password should have spaces")
+                print("Password should not have spaces")
 
             else:
                 length_criteria = 8
