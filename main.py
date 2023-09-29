@@ -12,6 +12,7 @@ from terminaltables import SingleTable
 
 import os
 import os.path
+from shutil import rmtree
 from getpass import getpass
 import hashlib
 import sys
@@ -32,11 +33,9 @@ def clear():
         os.system('clear')
     elif platform == "win64" or platform == "win32":
         os.system('cls')
-
-
-# Main title of the program
-def title():
-    print("Password Manager :3")
+    else:
+        print("Not aviable yet")
+        sys.exit(1)
 
 
 # the key() functions creates a key based on your password. This key is used to encrypt passwords later
@@ -55,14 +54,17 @@ def key(PA):
         backend=default_backend()
     )
 
-    encoded_key = base64.urlsafe_b64encode(kdf.derive(password))
+    try:
+        encoded_key = base64.urlsafe_b64encode(kdf.derive(password))
+    except Exception as e:
+        print(f"Error encoding password's key\n{e}")
 
     key = encoded_key.decode()
     return key
 
 
 def mainWin():
-    return 0
+    return "Not aviable yet"
 
 
 def mainLinux():
@@ -78,9 +80,16 @@ def mainLinux():
         #     └── passwd1.txt
         #     └── passwd2.txt
 
-        os.makedirs(PATH_L)
-        os.makedirs(PATH_L + "data")
-        os.makedirs(PATH_L + "data/passwd")
+        try:
+            os.makedirs(PATH_L)
+            os.makedirs(PATH_L + "data")
+            os.makedirs(PATH_L + "data/passwd")
+        except Exception as e:
+            print(f"Error creating folders\n{e}")
+
+            if os.path.exists(PATH_L):
+                rmtree(PATH_L)
+            sys.exit(1)
 
         with open(PATH_L + "data/data.json", "w+") as json_f:
             json_f.write('{"created_passwords": []}')
@@ -90,23 +99,37 @@ def mainLinux():
         print("Create a password. This password will be encrypted.")
         login_passwd = getpass(">> ")
 
-        encrypted_passwd = hashlib.md5(login_passwd.encode()).hexdigest()
+        try:
+            encrypted_passwd = hashlib.md5(login_passwd.encode()).hexdigest()
+        except Exception as e:
+            print(f"Error encoding password\n{e}")
+            rmtree(PATH_L)
+            sys.exit(1)
 
         os.makedirs(PATH_L + "data/passwd", exist_ok=True)
-        with open(PATH_L + "data/passwd/passwd.txt", "w+") as f:
-            f.write(encrypted_passwd)
+
+        try:
+            with open(PATH_L + "data/passwd/passwd.txt", "w+") as f:
+                f.write(encrypted_passwd)
+        except Exception as e:
+            print(f"Error encrrypting password\n{e}")
+            rmtree(PATH_L)
+            sys.exit(1)
 
         del login_passwd
-    else:
-        pass
 
     clear()
 
-    title()
+    # MAIN TITLE
+    print("Password Manager :3")
 
     # login
-    with open(PATH_L + "data/passwd/passwd.txt", "r") as f:
-        file = f.read()
+    try:
+        with open(PATH_L + "data/passwd/passwd.txt", "r") as f:
+            file = f.read()
+    except Exception as e:
+        print(f"Error opening password file\n{e}")
+        sys.exit(1)
 
     while True:
         print("Enter your password.")
@@ -160,7 +183,11 @@ def mainLinux():
             clear()
 
         elif choice == "1":
-            cipher = Fernet(key(login))
+            try:
+                cipher = Fernet(key(login))
+            except Exception as e:
+                print(f"Error getting key\n{e}")
+                sys.exit(1)
 
             print("Enter the name of the password.")
             input_name = input(">> ")
@@ -170,22 +197,35 @@ def mainLinux():
             create_passwd_ = getpass(">> ")
 
             with open(filename, "wb") as f:
-                f.write(create_passwd_.encode())
+                try:
+                    f.write(create_passwd_.encode())
+                except Exception as e:
+                    print(f"Error writing password\n{e}")
+                    os.rename(filename)
+                    sys.exit(1)
 
             with open(filename, "rb") as ef:
                 e_file = ef.read()
 
-            encrypted_passwd = cipher.encrypt(e_file)
+            try:
+                encrypted_passwd = cipher.encrypt(e_file)
+            except Exception as e:
+                print(f"Error encrypting password\n{e}")
+                os.remove(filename)
 
             with open(filename, "wb") as ef:
                 ef.truncate(0)
                 ef.write(encrypted_passwd)
 
             with open(PATH_L + "data/data.json", 'r+') as jf:
-                file_data = json.load(jf)
-                file_data["created_passwords"].append(input_name)
-                jf.seek(0)
-                json.dump(file_data, jf, indent=4)
+                try:
+                    file_data = json.load(jf)
+                    file_data["created_passwords"].append(input_name)
+                    jf.seek(0)
+                    json.dump(file_data, jf, indent=4)
+                except Exception as e:
+                    print(f"Error adding password to json\n{e}")
+                    os.remove(filename)
 
             del create_passwd_
 
@@ -193,7 +233,11 @@ def mainLinux():
             clear()
 
         elif choice == "2":
-            cipher = Fernet(key(login))
+            try:
+                cipher = Fernet(key(login))
+            except Exception as e:
+                print(f"Error getting key\n{e}")
+                sys.exit(1)
 
             print("Enter the name of the password")
             file_name = input(">> ")
@@ -243,7 +287,7 @@ def mainLinux():
                         json.dump(data, file)
 
                 else:
-                    print("\nPassword not recognized.\nPlease try again.")
+                    print("\nPassword not recognized.\nPlease make sure the password exists and try again.")
             else:
                 pass
 
@@ -279,6 +323,9 @@ def mainLinux():
 
             if password == "":
                 print("password must be at least 1 char long")
+
+            elif " " in password:
+                print("Password should have spaces")
 
             else:
                 length_criteria = 8
@@ -332,8 +379,8 @@ def mainLinux():
             if finRes == "y" or finRes == "Y" or finRes == "yes":
                 os.system(f"rm -rf {PATH_L}")
                 print("Bye")
-                sleep(1)
-                quit()
+                sleep(0.5)
+                sys.exit(1)
 
             else:
                 print("The information will not be deleted")
@@ -358,14 +405,10 @@ def main():
         mainWin()
     else:
         print("Not aviable yet.")
-        quit()
+        sys.exit(1)
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as e:
-        print(f"There was an error running the program: {e}")
-        sys.exit(1)
+    main()
 
 # :3
