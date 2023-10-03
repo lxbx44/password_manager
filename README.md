@@ -47,31 +47,17 @@ Made by: Aria
 
 `cd password_manager/`
 
-`pip install -r requirements.txt`
-
-`python3 main.py`
-
-Additionally you can add the application to your path to have a better experience:
-
-`chmod +x main.py && sudo cp main.py /usr/bin/pmcli`
+`make install`
 
 They you just need to run `pmcli` on your terminal.
 
+To uninstall the program you just need to run the following command:
 
-
-### Windows
-
-Download the git repo in a zip file:
-
-`git clone https://github.com/lxbx44/password_manager.git`
-
-`pip3 install -r requirements.txt`
-
-`python3 main.py`
+`make uninstall`
 
 #
 
-- [More info](http://www.fibla.es/pm)
+- [More info](https://ariadev.me/projects/)
 
 Enjoy!
 
