@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=PasswdManager
+Exec=pmcli
+Icon=/usr/share/icons/pmcli.ico
+Terminal=true
+Type=Application
+Categories=Utility;
